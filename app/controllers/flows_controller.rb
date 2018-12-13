@@ -28,7 +28,7 @@ class FlowsController < ApplicationController
     if @flow.valid?
       @flow.save
 
-    redirect_back(:fallback_location => "/campaigns", :notice => "Flow created successfully.")
+      redirect_to("/flows", :notice => "Flow created successfully.")
     else
       render("flow_templates/new_form_with_errors.html.erb")
     end
@@ -51,7 +51,7 @@ class FlowsController < ApplicationController
     if @flow.valid?
       @flow.save
 
-      redirect_back(:fallback_location => "/campaigns", :notice => "Flow created successfully.")
+      redirect_to("/flows/#{@flow.id}", :notice => "Flow updated successfully.")
     else
       render("flow_templates/edit_form_with_errors.html.erb")
     end

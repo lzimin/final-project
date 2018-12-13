@@ -49,7 +49,7 @@ class FlowCommentsController < ApplicationController
     if @flow_comment.valid?
       @flow_comment.save
 
-      redirect_back(:fallback_location => "/flow_comments", :notice => "Flow comment created successfully.")
+      redirect_to("/flow_comments/#{@flow_comment.id}", :notice => "Flow comment updated successfully.")
     else
       render("flow_comment_templates/edit_form_with_errors.html.erb")
     end
@@ -60,6 +60,6 @@ class FlowCommentsController < ApplicationController
 
     @flow_comment.destroy
 
-    redirect_back(:fallback_location => "/flow_comments", :notice => "Flow comment deleted successfully.")
+    redirect_to("/flow_comments", :notice => "Flow comment deleted successfully.")
   end
 end
