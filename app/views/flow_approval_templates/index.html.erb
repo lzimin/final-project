@@ -1,0 +1,74 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      All flow approvals
+    </h1>
+
+    <a href="/flow_approvals/new" class="btn btn-block btn-outline-secondary">
+      Add a new flow approval
+    </a>
+  </div>
+</div>
+
+
+<hr>
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          User
+        </th>
+
+        <th>
+          Flow
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @flow_approvals.each do |flow_approval| %>
+      <tr>
+        <td>
+          <%= flow_approval.id %>
+        </td>
+
+        <td>
+          <%= flow_approval.user_id %>
+        </td>
+
+        <td>
+          <%= flow_approval.flow_id %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(flow_approval.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(flow_approval.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/flow_approvals/<%= flow_approval.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

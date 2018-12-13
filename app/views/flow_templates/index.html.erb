@@ -1,0 +1,82 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      All flows
+    </h1>
+
+    <a href="/flows/new" class="btn btn-block btn-outline-secondary">
+      Add a new flow
+    </a>
+  </div>
+</div>
+
+
+<hr>
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Campaign
+        </th>
+
+        <th>
+          Flow version
+        </th>
+
+        <th>
+          Creator
+        </th>
+
+        <th>
+          Created
+        </th>
+
+        <th>
+          Last Updated
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @flows.each do |flow| %>
+      <tr>
+        <td>
+          <%= flow.id %>
+        </td>
+
+        <td>
+          <%= flow.campaign.campaign_title %>
+        </td>
+
+        <td>
+          <%= flow.flow_version %>
+        </td>
+
+        <td>
+          <%= flow.creator.first_name %>, <%= flow.creator.last_name %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(flow.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(flow.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/flows/<%= flow.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

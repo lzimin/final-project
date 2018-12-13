@@ -1,0 +1,27 @@
+<h1>
+  Edit company #<%= @company.id %>
+</h1>
+
+<hr>
+
+<form action="/update_company/<%= @company.id %>" method="post">
+
+  <div class="form-group">
+    <label for="company_name">
+      Company name
+    </label>
+
+    <input type="text" id="company_name" name="company_name" class="form-control" value="<%= @company.company_name %>">
+  </div>
+  
+
+  <button class="btn btn-block btn-outline-secondary">
+    Update company
+  </button>
+</form>
+
+<hr>
+
+<a href="/companies">
+  Go back
+</a>

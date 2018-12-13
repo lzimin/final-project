@@ -1,0 +1,135 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      All campaigns
+    </h1>
+
+    <a href="/campaigns/new" class="btn btn-block btn-outline-primary">
+      Add a new campaign
+    </a>
+  </div>
+</div>
+
+
+<hr>
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Company
+        </th>
+
+        <th>
+          Campaign title
+        </th>
+
+        <th>
+          Campaign start
+        </th>
+
+        <th>
+          Campaign end
+        </th>
+
+        <th>
+          Status
+        </th>
+
+        <th>
+          Last updated
+        </th>
+
+      </tr>
+        
+        <% if current_user.company_id == 1 %>
+    
+            <% @campaigns.each do |campaign| %>
+              <tr>
+                <td>
+                  <%= campaign.id %>
+                </td>
+        
+                <td>
+                  <a href="/companies/<% campaign.company.id %>"> <%= campaign.company.company_name %> </a>
+                </td>
+        
+                <td>
+                  <a href="/campaigns/<%= campaign.id %>">
+                    <%= campaign.campaign_title %>
+                  </a>
+                </td>
+        
+                <td>
+                  <%= campaign.campaign_start.strftime("%d %b %y at %H:%M") %> UTC
+                </td>
+        
+                <td>
+                  <%= campaign.campaign_end.strftime("%d %b %y at %H:%M") %> UTC
+                </td>
+        
+                <td>
+                  <%= campaign.status %>
+                </td>
+                
+                <td>
+                  <div>
+                    <a> <%= time_ago_in_words(campaign.updated_at) %> ago </a>
+                  </div>
+                  <div>
+                    by <a href="users/<%= campaign.last_updater_id %>"> <%= campaign.last_updater.first_name %> <%= campaign.last_updater.last_name %> </a>
+                  </div>
+                </td>
+        
+              </tr>
+            <% end %>
+          
+          <% else %>
+            <% @my_company_campaigns.each do |campaign| %>
+              <tr>
+                <td>
+                  <%= campaign.id %>
+                </td>
+        
+                <td>
+                  <a href="/companies/<% campaign.company.id %>"> <%= campaign.company.company_name %> </a>
+                </td>
+        
+                <td>
+                  <a href="/campaigns/<%= campaign.id %>">
+                    <%= campaign.campaign_title %>
+                  </a>
+                </td>
+        
+                <td>
+                  <%= campaign.campaign_start.strftime("%d %b %y at %H:%M") %> UTC
+                </td>
+        
+                <td>
+                  <%= campaign.campaign_end.strftime("%d %b %y at %H:%M") %> UTC
+                </td>
+        
+                <td>
+                  <%= campaign.status %>
+                </td>
+                
+                <td>
+                  <div>
+                    <a> <%= time_ago_in_words(campaign.updated_at) %> ago </a>
+                  </div>
+                  <div>
+                    by <a href="users/<%= campaign.last_updater_id %>"> <%= campaign.last_updater.first_name %> <%= campaign.last_updater.last_name %> </a>
+                  </div>
+                </td>
+        
+              </tr>
+            <% end %>
+          <% end %>  
+    </table>
+  </div>
+</div>

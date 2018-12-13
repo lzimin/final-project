@@ -1,0 +1,34 @@
+<h1>
+  Edit flow approval #<%= @flow_approval.id %>
+</h1>
+
+<hr>
+
+<form action="/update_flow_approval/<%= @flow_approval.id %>" method="post">
+
+  <div class="form-group">
+    <label for="user_id">
+      User
+    </label>
+
+    <input type="text" id="user_id" name="user_id" class="form-control" value="<%= @flow_approval.user_id %>">
+  </div>
+
+  <div class="form-group">
+    <label for="flow_id">
+      Flow
+    </label>
+
+    <input type="text" id="flow_id" name="flow_id" class="form-control" value="<%= @flow_approval.flow_id %>">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Update flow approval
+  </button>
+</form>
+
+<hr>
+
+<a href="/flow_approvals">
+  Go back
+</a>

@@ -1,0 +1,118 @@
+<table class="table">
+  <tr>
+    <th>
+      First Name
+    </th>
+
+    <th>
+      Last Name
+    </th>
+
+    <th>
+      Position
+    </th>
+
+    <th>
+      Company
+    </th>
+
+    <th>
+      Campaigns
+    </th>
+    
+    <th>
+    </th>
+
+  </tr>
+      <% if current_user.company_id == 1 %>  
+        <% @users.each do |user| %>
+          <tr>
+            <td>
+              <%= user.first_name %>
+            </td>
+        
+            <td>
+              <%= user.last_name %>
+            </td>
+        
+            <td>
+              <%= user.position %>
+            </td>
+        
+            <td>
+              <%= user.company.company_name %>
+            </td>
+        
+            <td>
+              <%= user.created_campaigns.count %>
+            </td>
+        
+            <td>
+              <a href="/users/<%= user.id %>" class="btn btn-primary">
+                Show details
+              </a>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <% @my_colleagues.each do |user| %>
+          <tr>
+            <td>
+              <%= user.first_name %>
+            </td>
+        
+            <td>
+              <%= user.last_name %>
+            </td>
+        
+            <td>
+              <%= user.position %>
+            </td>
+        
+            <td>
+              <%= user.company.company_name %>
+            </td>
+        
+            <td>
+              <%= user.created_campaigns.count %>
+            </td>
+        
+            <td>
+              <a href="/users/<%= user.id %>" class="btn btn-primary">
+                Show details
+              </a>
+            </td>
+          </tr>
+        <% end %>
+         
+        <% @ff_colleagues.each do |user| %>
+          <tr>
+            <td>
+              <%= user.first_name %>
+            </td>
+        
+            <td>
+              <%= user.last_name %>
+            </td>
+        
+            <td>
+              <%= user.position %>
+            </td>
+        
+            <td>
+              <%= user.company.company_name %>
+            </td>
+        
+            <td>
+              <%= user.created_campaigns.count %>
+            </td>
+        
+            <td>
+              <a href="/users/<%= user.id %>" class="btn btn-primary">
+                Show details
+              </a>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>  
+</table>

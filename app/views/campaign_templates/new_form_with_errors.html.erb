@@ -1,0 +1,100 @@
+<!-- Validation failure messages -->
+<% if @campaign.present? %>
+  <% if @campaign.errors.any? %>
+    <% @campaign.errors.full_messages.each do |message| %>
+      <div class="alert alert-danger">
+        <%= message %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<h1>
+  Add a new campaign
+</h1>
+
+
+<hr>
+
+<form action="/create_campaign" method="post">
+
+  <div class="form-group">
+    <% if current_user.company_id == 1 %>
+      <label for="company_id">
+        Company
+      </label>
+      <%= select_tag("company_id", options_from_collection_for_select(Company.all, :id, :company_name, @campaign.try(:company_id)), :class => "form-control") %>
+      
+    <% else %>
+      <input type="hidden" id="company_id" name="company_id" class="form-control" value="<%=current_user.company_id%>">
+    <% end %>
+    
+    <% if current_user.company_id == 1 %>
+      or <a href="/companies/new">add a new company</a> first
+    <% else %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <label for="campaign_title">
+      Campaign title
+    </label>
+
+    <input type="text" id="campaign_title" name="campaign_title" class="form-control" value="<%= @campaign.campaign_title %>">
+  </div>
+
+  <div class="form-group">
+    <label for="campaign_start">
+      Campaign start
+    </label>
+
+    <input type="text" id="campaign_start" name="campaign_start" class="form-control" value="<%= @campaign.campaign_start %>">
+  </div>
+
+  <div class="form-group">
+    <label for="campaign_end">
+      Campaign end
+    </label>
+
+    <input type="text" id="campaign_end" name="campaign_end" class="form-control" value="<%= @campaign.campaign_end %>">
+  </div>
+
+  <div class="form-group">
+    <input type="hidden" id="creator_id" name="creator_id" class="form-control" value="<%= current_user.id %>">
+  </div>
+
+  <div class="form-group">
+    <input type="hidden" id="last_updater_id" name="last_updater_id" class="form-control" value="<%= current_user.id %>">
+  </div>
+
+  <div class="form-group">
+    <label for="campaign_description">
+      Campaign description
+    </label>
+
+    <textarea id="campaign_description" name="campaign_description" class="form-control" rows="3"><%= @campaign.campaign_description %></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="status">
+      Status
+    </label>
+
+    <select id="status" name="status" class="form-control">
+      <option value="Active">Active</option>
+      <option value="Approved">Approved</option>
+      <option value="Approval Pending">Approval Pending</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+  </div>  
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create campaign
+  </button>
+</form>
+
+<hr>
+
+<a href="/campaigns">
+  Go back
+</a>

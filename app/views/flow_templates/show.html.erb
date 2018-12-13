@@ -1,0 +1,67 @@
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      <%= @flow.campaign.campaign_title %>, Flow #<%= @flow.flow_version %>
+    </h1>
+
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/flows" class="btn btn-block btn-outline-primary">
+          Go back
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/flows/<%= @flow.id %>/edit" class="btn btn-block btn-outline-primary">
+          Edit flow
+        </a>
+      </div>
+    </div>
+
+    <div class="col-width: 100%">
+      <dd>
+        <img src="<%= @flow.flow_image %>" class="img-fluid">
+      </dd>
+    </div>
+
+    <dl>
+      <dt>
+        Flow image
+      </dt>
+      
+      <dt>
+        Created by
+      </dt>
+      <dd>
+        <a href="/users/<%= @flow.creator_id %>">
+          <%= @flow.creator.first_name %>, <%= @flow.creator.last_name %>
+        </a>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@flow.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@flow.updated_at) %> ago
+      </dd>
+    </dl>
+    
+    
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/delete_flow/<%= @flow.id %>" class="btn btn-block btn-danger">
+          Delete flow
+        </a>
+      </div>
+    </div>
+    
+  </div>
+</div>
+

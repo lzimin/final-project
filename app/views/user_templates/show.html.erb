@@ -1,0 +1,35 @@
+
+<h1>
+  <%= @user.first_name %> <%= @user.last_name %>
+</h1>
+
+<hr>
+
+<dl>
+  
+  <dt>
+    Position
+  </dt>
+  <dd>
+    <%= @user.position %>
+  </dd>
+
+  <dt>
+    Company
+  </dt>
+  <dd>
+    <%= @user.company.company_name %>
+  </dd>
+
+  <dt>
+    Email
+  </dt>
+  <dd>
+    <%= @user.email %>
+  </dd>
+
+</dl>
+
+<a href="/users">
+  Go back
+</a>

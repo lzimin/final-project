@@ -1,0 +1,35 @@
+<h1>
+  Add a new flow approval
+</h1>
+
+
+<hr>
+
+<form action="/create_flow_approval" method="post">
+
+  <div class="form-group">
+    <label for="user_id">
+      User
+    </label>
+
+    <input type="text" id="user_id" name="user_id" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="flow_id">
+      Flow
+    </label>
+
+    <input type="text" id="flow_id" name="flow_id" class="form-control">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create flow approval
+  </button>
+</form>
+
+<hr>
+
+<a href="/flow_approvals">
+  Go back
+</a>

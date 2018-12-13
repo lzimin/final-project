@@ -1,0 +1,241 @@
+<div class="row mt-4 mb-5">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      <%= @campaign.campaign_title %> for <a href="/companies/<%= @campaign.company.id %>">
+        <%= @campaign.company.company_name %>
+      </a>
+    </h1>
+    
+    <div>
+      <a href="/campaigns">
+        Go back
+      </a>
+    </div>
+  <hr>
+  
+    <div class="row">
+      <div class="col-12">
+        <dt>
+          Campaign Status
+        </dt>
+        <dd>
+          <div class="row text-center">
+            <div class="col-sm-12">
+              <div class="alert alert-dismissible alert-<%=@alert_type%>">
+                <h2 class="display-8">
+                  <%= @campaign.status %>
+                </h2>
+              </div>
+            </div>
+          </div>
+        </dd>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <dt>
+          Start Date
+        </dt>
+        <dd>
+          <%= @campaign.campaign_start.strftime("%d %b %y at %H:%M") %> UTC
+        </dd>
+      </div>
+      
+      <div class="col-6">
+        <dt>
+          End Date
+        </dt>
+        <dd>
+          <%= @campaign.campaign_end.strftime("%d %b %y at %H:%M") %> UTC
+        </dd>
+      </div>
+
+      <div class="col-6">
+        <dt>
+          Created by
+        </dt>
+        <dd>
+          <%= @campaign.creator.first_name %>, <%= @campaign.creator.last_name %>
+        </dd>
+      </div>
+
+      <div class="col-6">
+        <dt>
+          Last updated by
+        </dt>
+        <dd>
+          <%= @campaign.last_updater.first_name %>, <%= @campaign.last_updater.last_name %>
+        </dd>
+      </div>
+    </div>
+    
+    <div>
+      <dl>
+
+        <div>
+          Last updated on <%= @campaign.updated_at.strftime("%d %b %y at %H:%M") %>          
+        </div>
+
+        <div class="card border-primary mb-3" style="max-width: 100%;">
+          <div class="card-header">Campaign description</div>
+          <div class="card-body">
+            <p class="card-text"> <%= @campaign.campaign_description %> </p>
+          </div>
+        </div>    
+
+    
+        <dt>
+          Created at
+        </dt>
+        <dd>
+          <%= time_ago_in_words(@campaign.created_at) %> ago
+        </dd>
+    
+        <dt>
+          Updated at
+        </dt>
+        <dd>
+          <%= time_ago_in_words(@campaign.updated_at) %> ago
+        </dd>
+      </dl>
+      
+      <% if current_user.company_id == 1 %>
+        <div>
+          <a href="/campaigns/<%= @campaign.id %>/edit" class="btn btn-block btn-outline-warning">
+            Edit campaign
+          </a>
+        </div>
+      <% elsif current_user.company_id == @campaign.creator.company_id %>
+        <div>
+          <a href="/campaigns/<%= @campaign.id %>/edit" class="btn btn-block btn-outline-warning">
+            Edit campaign
+          </a>
+        </div>
+      <% else %>  
+      <% end %>  
+    </div>
+    
+    <hr>
+
+    <div class="mb-5">
+        
+
+      
+      
+      <% if Flow.find_by(:campaign_id => @campaign.id).nil? %>
+      
+        <div>
+          <a> No flow is available yet </a>
+        </div>
+      
+      <% else %>
+        <div class="row">
+          <div class="col-8">
+            <h4> Latest Flow </h4> 
+          </div>
+          <div class="col-4">
+            
+          </div>
+         
+        </div>
+
+        
+          <div>
+            <a href="/flows/<%= @latest_flow.id %>"> Flow Version <%= @latest_flow.flow_version %> </a>
+          </div>
+    
+          <img src="<%= @latest_flow.flow_image %>" class="img-fluid" alt="Responsive image">
+          
+          <hr> <!-- comments -->
+          
+          <div>
+            <% if FlowComment.where(:flow_id => @latest_flow.id).nil? %>
+              <div>
+                No comments yet
+              </div>
+  
+            <% else %>
+              <% FlowComment.where(:flow_id => @latest_flow.id).each do |comment| %>
+                <div>
+                  <ul>
+
+                    <a href="/users/<%=comment.user_id%>"><%= comment.user.first_name %> <%= comment.user.last_name %></a>
+                    <%= time_ago_in_words(comment.created_at) %> ago
+                    <div>
+                      <%= comment.body %>                      
+                    </div>
+
+                  </ul>
+   
+                </div>
+              <% end %>
+            <% end %>  
+          </div>
+          
+          <form action="/create_flow_comment" method="post" class="pt-4">
+            <input name="authenticity_token" type="hidden" value="<%= current_user.authenticatable_salt %>">
+    
+            <input type="hidden" name="flow_id" value="<%= @latest_flow.id %>">
+    
+            <input type="hidden" name="user_id" value="<%= current_user.id %>">
+    
+            <!-- Label and input for body -->
+            <div class="form-group">
+              <label for="body" class="sr-only">
+                Body
+              </label>
+    
+              <div class="input-group">
+                <input type="text" id="body" name="body" class="form-control" placeholder="Add a comment..." required="">
+    
+                <span class="input-group-append">
+                  <button class="btn btn-primary" type="submit">
+                    <i class="far fa-comment"></i>
+    
+                    Add Comment
+                  </button>
+                </span>
+              </div>
+            </div>
+          </form>    
+            
+          <hr>
+          
+          <div>
+            <h4>Flow History</h4>
+  
+            
+            <div>
+              <% @all_flows.each do |flow| %>
+                <ul>
+                  <a href="/flows/<%= flow.id %>"> Version <%= flow.flow_version %> </a>
+                </ul>              
+  
+              <% end %>  
+            </div>  
+
+        <% end %>
+              
+        </div>  
+        
+        <div>
+          <% if current_user.company_id == 1 %>
+            <div>
+              <a href="/delete_campaign/<%= @campaign.id %>" class="btn btn-block btn-danger">
+                Delete campaign
+              </a>
+            </div>
+          <% elsif current_user.company_id == @campaign.creator.company_id %>
+            <div>
+              <a href="/delete_campaign/<%= @campaign.id %>" class="btn btn-block btn-danger">
+                Delete campaign
+              </a>
+            </div>
+          <% else %>  
+          <% end %> 
+        </div>
+        
+    </div>
+  </div>
+</div>
