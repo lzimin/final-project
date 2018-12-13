@@ -26,9 +26,9 @@ class FlowApprovalsController < ApplicationController
     if @flow_approval.valid?
       @flow_approval.save
 
-      redirect_back(:fallback_location => "/flow_approvals", :notice => "Flow approval created successfully.")
+      redirect_back(:fallback_location => "/campaigns", :notice => "Flow approval created successfully.")
     else
-      render("flow_approval_templates/new_form_with_errors.html.erb")
+      redirect_back(:fallback_location => "/campaigns", :notice => "There was an error.")
     end
   end
 
@@ -47,9 +47,9 @@ class FlowApprovalsController < ApplicationController
     if @flow_approval.valid?
       @flow_approval.save
 
-      redirect_to("/flow_approvals/#{@flow_approval.id}", :notice => "Flow approval updated successfully.")
+      redirect_back(:fallback_location => "/campaigns", :notice => "Flow approval created successfully.")
     else
-      render("flow_approval_templates/edit_form_with_errors.html.erb")
+      redirect_back(:fallback_location => "/campaigns", :notice => "You already approved this flow.")
     end
   end
 

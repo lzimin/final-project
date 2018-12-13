@@ -13,5 +13,9 @@ class FlowApproval < ApplicationRecord
 
 belongs_to :user
 belongs_to :flow  
-  
+
+validates :user_id, presence: true
+validates :flow_id, presence: true
+validates :flow_id, uniqueness: {scope: :user_id, message: "you already approved this flow"}
+
 end

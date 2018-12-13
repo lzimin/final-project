@@ -27,7 +27,18 @@
   <dd>
     <%= @user.email %>
   </dd>
-
+  
+  <dt>
+    Campaigns
+  </dt>
+  <dd>
+    <% @user.created_campaigns.each do |campaign| %>
+      <ul>
+        <a href="campaigns/<%= campaign.creator_id %>"><%=campaign.campaign_title%></a>
+      </ul>
+    <% end %>  
+  </dd>
+  
 </dl>
 
 <a href="/users">

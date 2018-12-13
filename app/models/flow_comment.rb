@@ -15,4 +15,8 @@ class FlowComment < ApplicationRecord
 belongs_to :user
 belongs_to :flow
 
+validates :flow_id, presence: true
+validates :body, presence: true
+validates :user_id, presence: true
+
 end

@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   #------------------------------
 
-  # Routes for the Flow comment resource:
+  # Routes for the Flow Comment resource:
 
   # CREATE
   get("/flow_comments/new", { :controller => "flow_comments", :action => "new_form" })
@@ -92,7 +92,8 @@ Rails.application.routes.draw do
   # UPDATE
   get("/campaigns/:prefill_with_id/edit", { :controller => "campaigns", :action => "edit_form" })
   post("/update_campaign/:id_to_modify", { :controller => "campaigns", :action => "update_row" })
-
+  post("/campaigns/update_campaign/:id_to_modify", { :controller => "campaigns", :action => "update_row" })
+  
   # DELETE
   get("/delete_campaign/:id_to_remove", { :controller => "campaigns", :action => "destroy_row" })
 

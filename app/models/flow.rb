@@ -11,7 +11,9 @@
 #  updated_at   :datetime         not null
 #
 
-class Flow < ApplicationRecord
+class Flow < ActiveRecord::Base
+
+mount_uploader :flow_image, FlowImageUploader
 
 belongs_to :creator, :class_name => "User"
 belongs_to :campaign

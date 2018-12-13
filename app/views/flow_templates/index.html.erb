@@ -52,7 +52,7 @@
         </td>
 
         <td>
-          <%= flow.campaign.campaign_title %>
+          <a href="/campaigns/<%= flow.campaign_id %>"><%= flow.campaign.campaign_title %></a>
         </td>
 
         <td>
@@ -71,7 +71,7 @@
         </td>
 
         <td>
-          <a href="/flows/<%= flow.id %>">
+          <a href="/flows/<%= flow.id %>" class="btn btn-block btn-outline-primary">
             Show details
           </a>
         </td>

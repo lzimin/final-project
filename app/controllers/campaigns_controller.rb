@@ -29,8 +29,7 @@ class CampaignsController < ApplicationController
     @sorted_flows = @flows.sort
     
     @all_flows = Flow.where(:campaign_id => @campaign.id).all    
-    @latest_flow = Flow.where(:campaign_id => @campaign.id).last
-
+    @latest_flow = Flow.where(:campaign_id => @campaign.id).first
 
     
 

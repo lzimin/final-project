@@ -32,7 +32,11 @@
         <th>
           Total Campaigns
         </th>
-
+        
+        <th>
+          Users
+        </th>
+        
         <th>
           Created at
         </th>
@@ -69,6 +73,10 @@
             <td>
               <%= company.campaigns.count %>
             </td>
+
+            <td>
+              <%= company.users.count %>
+            </td>
     
             <td>
               <%= time_ago_in_words(company.created_at) %> ago
@@ -79,7 +87,7 @@
             </td>
     
             <td>
-              <a href="/companies/<%= company.id %>">
+              <a href="/companies/<%= company.id %>" class="btn btn-block btn-outline-primary">
                 Show details
               </a>
             </td>

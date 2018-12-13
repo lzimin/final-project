@@ -1,7 +1,10 @@
 <div class="row mb-3">
   <div class="col-md-8 offset-md-2">
     <h1>
-      <%= @flow.campaign.campaign_title %>, Flow #<%= @flow.flow_version %>
+       <a href="/campaigns/<%= @flow.campaign_id %>">
+        <%= @flow.campaign.campaign_title %>
+       </a>
+      , Flow #<%= @flow.flow_version %>
     </h1>
 
     <div class="row mb-3">
@@ -25,9 +28,18 @@
     </div>
 
     <dl>
-      <dt>
-        Flow image
-      </dt>
+      <dd>
+          <div class="col-4">
+            <form action="/create_flow_approval" method="post">
+              <input type="hidden" id="flow_id" name="flow_id" value="<%= @flow.id %>">
+              <input type="hidden" id="user_id" name="user_id" value="<%= current_user.id %>">
+              
+              <button type="submit" class="btn btn-primary btn-lg">
+                Approve Flow
+              </button>
+            </form>
+          </div>        
+      </dd>
       
       <dt>
         Created by
@@ -50,8 +62,81 @@
       </dt>
       <dd>
         <%= time_ago_in_words(@flow.updated_at) %> ago
+
       </dd>
     </dl>
+
+
+
+
+
+
+          <div>
+            <% if FlowApproval.find_by(:flow_id => @flow.id).nil? %>
+              <a> Flow not approved yet</a>
+            <% else %>  
+              <% FlowApproval.where(:flow_id => @flow.id).each do |approval| %>
+                Approved by
+                <a href="/users/<%= approval.user_id %>">
+                  <%= User.find_by(:id => approval.user_id).first_name %>
+                  <%= User.find_by(:id => approval.user_id).last_name %>                  
+                </a>
+
+              <% end %>
+            <% end %>  
+          </div>  
+    
+          <div>
+            <% if FlowComment.find_by(:flow_id => @flow.id).nil? %>
+              <div>
+                No comments yet
+              </div>
+  
+            <% else %>
+              <% FlowComment.where(:flow_id => @flow.id).each do |comment| %>
+                <div>
+                  <ul>
+
+                    <a href="/users/<%=comment.user_id%>"><%= comment.user.first_name %> <%= comment.user.last_name %></a>
+                    <%= time_ago_in_words(comment.created_at) %> ago
+                    <div>
+                      <%= comment.body %>                      
+                    </div>
+
+                  </ul>
+   
+                </div>
+              <% end %>
+            <% end %>  
+          </div>
+          
+          <form action="/create_flow_comment" method="post" class="pt-2">
+            <input name="authenticity_token" type="hidden" value="<%= current_user.authenticatable_salt %>">
+    
+            <input type="hidden" name="flow_id" value="<%= @flow.id %>">
+    
+            <input type="hidden" name="user_id" value="<%= current_user.id %>">
+    
+            <!-- Label and input for body -->
+            <div class="form-group">
+              <label for="body" class="sr-only">
+                Body
+              </label>
+    
+              <div class="input-group">
+                <input type="text" id="body" name="body" class="form-control" placeholder="Add a comment..." required="">
+    
+                <span class="input-group-append">
+                  <button class="btn btn-primary" type="submit">
+                    <i class="far fa-comment"></i>
+    
+                    Add Comment
+                  </button>
+                </span>
+              </div>
+            </div>
+          </form>    
+    
     
     
     <div class="row mb-3">

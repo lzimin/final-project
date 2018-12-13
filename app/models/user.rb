@@ -36,6 +36,11 @@ has_many :created_campaigns, :class_name => "Campaign", :foreign_key => "creator
 has_many :updated_campaigns, :class_name => "Campaign", :foreign_key => "last_updater_id", :dependent => :nullify
 belongs_to :company
 
+validates :first_name, presence: true
+validates :last_name, presence: true
+validates :company_id, presence: true
+validates :position, presence: true
+
 
 
 end

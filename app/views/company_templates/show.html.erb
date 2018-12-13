@@ -45,7 +45,32 @@
       <dd>
         <%= time_ago_in_words(@company.updated_at) %> ago
       </dd>
+      
+      <dt>
+        Users
+      </dt>
+        <% @company.users.each do |user| %>
+          <dd>
+            <a href="/users/<%= user.id %>"><%= user.first_name %> <%= user.last_name %></a>  
+          </dd>
+  
+
+        <% end %>
+        
+      <dt>
+        Campaigns
+      </dt>
+        <% @company.campaigns.each do |campaign| %>
+          <dd>
+            <a href="/users/<%= campaign.id %>"><%= campaign.campaign_title %> </a>  
+          </dd>
+  
+
+        <% end %>          
     </dl>
+    
+    
+
   </div>
 </div>
 

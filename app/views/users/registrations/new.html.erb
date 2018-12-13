@@ -162,7 +162,7 @@
 
             <%= f.label :company_id %>
 
-            <%= f.number_field :company_id, :class => company_id_class, :placeholder => "Enter company id" %>
+            <%= f.collection_select :company_id, Company.all, :id, :company_name, :class => company_id_class %>
 
             <% if company_id_was_invalid %>
               <% resource.errors.full_messages_for(:company_id).each do |message| %>

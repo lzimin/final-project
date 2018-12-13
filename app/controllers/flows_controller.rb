@@ -13,7 +13,7 @@ class FlowsController < ApplicationController
 
   def new_form
     @flow = Flow.new
-
+    
     render("flow_templates/new_form.html.erb")
   end
 
@@ -24,7 +24,7 @@ class FlowsController < ApplicationController
     @flow.flow_version = params.fetch("flow_version")
     @flow.flow_image = params.fetch("flow_image")
     @flow.creator_id = params.fetch("creator_id")
-
+    
     if @flow.valid?
       @flow.save
 

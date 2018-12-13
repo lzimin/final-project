@@ -24,7 +24,7 @@ belongs_to :company
 
 default_scope { order(updated_at: :desc) }
 
-validates :campaign_title, presence: true
+validates :campaign_title, presence: true, uniqueness: true
 validates :campaign_start, presence: true
 validates :campaign_end, presence: true
 validates :campaign_description, presence: true

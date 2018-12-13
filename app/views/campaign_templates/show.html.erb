@@ -31,6 +31,35 @@
         </dd>
       </div>
     </div>
+    
+   
+    <div>
+      <form action="update_campaign/<%=@campaign.id%>" method="post">
+          <input name="authenticity_token" type="hidden" value="<%= current_user.authenticatable_salt %>">
+          <input type="hidden" name="id_to_modify" value="<%= @campaign.id %>">
+          <input type="hidden" name="company_id" value="<%= @campaign.company_id %>">
+          <input type="hidden" name="campaign_title" value="<%= @campaign.campaign_title %>">
+          <input type="hidden" name="campaign_start" value="<%= @campaign.campaign_start %>">
+          <input type="hidden" name="campaign_end" value="<%= @campaign.campaign_end %>">
+          <input type="hidden" name="creator_id" value="<%= @campaign.creator_id %>">
+          <input type="hidden" name="last_updater_id" value="<%= current_user.id %>">
+          <input type="hidden" name="campaign_description" value="<%= @campaign.campaign_description %>">
+        <div class="form-group">
+          <label for="status">Campaign Status</label>
+          <select id="status" name="status" class="form-control">
+            <option value="Active">Active</option>
+            <option value="Approved">Approved</option>
+            <option value="Approval Pending">Approval Pending</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+        <button "btn btn-block btn-outline-primary">
+          Update Status
+        </button>
+      </form>
+    </div>
+
+
 
     <div class="row">
       <div class="col-6">
@@ -50,13 +79,16 @@
           <%= @campaign.campaign_end.strftime("%d %b %y at %H:%M") %> UTC
         </dd>
       </div>
-
+    </div>  
+    
+    <div class="row">
       <div class="col-6">
         <dt>
           Created by
         </dt>
         <dd>
           <%= @campaign.creator.first_name %>, <%= @campaign.creator.last_name %>
+          on <%= @campaign.created_at.strftime("%d %b %y at %H:%M") %>
         </dd>
       </div>
 
@@ -66,16 +98,13 @@
         </dt>
         <dd>
           <%= @campaign.last_updater.first_name %>, <%= @campaign.last_updater.last_name %>
+          on <%= @campaign.updated_at.strftime("%d %b %y at %H:%M") %>
         </dd>
-      </div>
+      </div> 
     </div>
     
     <div>
       <dl>
-
-        <div>
-          Last updated on <%= @campaign.updated_at.strftime("%d %b %y at %H:%M") %>          
-        </div>
 
         <div class="card border-primary mb-3" style="max-width: 100%;">
           <div class="card-header">Campaign description</div>
@@ -83,32 +112,19 @@
             <p class="card-text"> <%= @campaign.campaign_description %> </p>
           </div>
         </div>    
-
-    
-        <dt>
-          Created at
-        </dt>
-        <dd>
-          <%= time_ago_in_words(@campaign.created_at) %> ago
-        </dd>
-    
-        <dt>
-          Updated at
-        </dt>
-        <dd>
-          <%= time_ago_in_words(@campaign.updated_at) %> ago
-        </dd>
       </dl>
       
       <% if current_user.company_id == 1 %>
         <div>
           <a href="/campaigns/<%= @campaign.id %>/edit" class="btn btn-block btn-outline-warning">
+            <i class="far fa-edit"></i>
             Edit campaign
           </a>
         </div>
       <% elsif current_user.company_id == @campaign.creator.company_id %>
         <div>
           <a href="/campaigns/<%= @campaign.id %>/edit" class="btn btn-block btn-outline-warning">
+            <i class="far fa-edit"></i>
             Edit campaign
           </a>
         </div>
@@ -118,9 +134,18 @@
     
     <hr>
 
-    <div class="mb-5">
+    <div class="mb-2">
         
-
+          <form action="/flows/new" method="get" class="pt-2">
+            <div class="form-group">
+              <span class="input-group-append">
+                <button class="btn btn-block btn-outline-primary">
+                  <i class="fas fa-plus"></i>
+                  Add new Flow
+                </button>
+              </span>
+            </div>
+          </form> 
       
       
       <% if Flow.find_by(:campaign_id => @campaign.id).nil? %>
@@ -134,12 +159,9 @@
           <div class="col-8">
             <h4> Latest Flow </h4> 
           </div>
-          <div class="col-4">
-            
-          </div>
-         
-        </div>
+          
 
+        </div>
         
           <div>
             <a href="/flows/<%= @latest_flow.id %>"> Flow Version <%= @latest_flow.flow_version %> </a>
@@ -147,10 +169,35 @@
     
           <img src="<%= @latest_flow.flow_image %>" class="img-fluid" alt="Responsive image">
           
+          <div class="col-4">
+            <form action="/create_flow_approval" method="post">
+              <input type="hidden" id="flow_id" name="flow_id" value="<%= @latest_flow.id %>">
+              <input type="hidden" id="user_id" name="user_id" value="<%= current_user.id %>">
+              
+              <button type="submit" class="btn btn-primary btn-lg">
+                Approve Flow
+              </button>
+            </form>
+          </div>
+          
+          <div>
+            <% if FlowApproval.find_by(:flow_id => @latest_flow.id).nil? %>
+              <a> Flow not approved yet</a>
+            <% else %>  
+            Approved by
+              <% FlowApproval.where(:flow_id => @latest_flow.id).each do |approval| %>
+                <a href="/users/<%= approval.user_id %>">
+                  <%= User.find_by(:id => approval.user_id).first_name %>
+                  <%= User.find_by(:id => approval.user_id).last_name %>,                  
+                </a>
+
+              <% end %>
+            <% end %>  
+          </div>          
           <hr> <!-- comments -->
           
           <div>
-            <% if FlowComment.where(:flow_id => @latest_flow.id).nil? %>
+            <% if FlowComment.find_by(:flow_id => @latest_flow.id).nil? %>
               <div>
                 No comments yet
               </div>
@@ -173,7 +220,7 @@
             <% end %>  
           </div>
           
-          <form action="/create_flow_comment" method="post" class="pt-4">
+          <form action="/create_flow_comment" method="post" class="pt-2">
             <input name="authenticity_token" type="hidden" value="<%= current_user.authenticatable_salt %>">
     
             <input type="hidden" name="flow_id" value="<%= @latest_flow.id %>">

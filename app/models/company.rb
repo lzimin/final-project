@@ -12,5 +12,7 @@ class Company < ApplicationRecord
 
 has_many :users, :dependent => :nullify
 has_many :campaigns, :dependent => :nullify 
+
+validates :company_name, presence: true, uniqueness: true
   
 end
